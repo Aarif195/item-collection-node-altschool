@@ -1,16 +1,21 @@
 {
-  "name": "assessment",
+  "name": "item-collect-node-altschool",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js"
-
   },
-  "keywords": [],
+  "keywords": [
+    "nodejs",
+    "crud",
+    "http",
+    "file-system",
+    "plain-node",
+    "backend",
+    "altschool"
+  ],
   "author": "Abdulazeez Adebayo",
   "license": "ISC",
-  "description": ""
+  "description": "A simple Node.js CRUD application for managing items with name, price, size, and ID, using file storage."
 }
-
-

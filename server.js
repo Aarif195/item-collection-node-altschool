@@ -57,7 +57,6 @@ const server = http.createServer((req, res) => {
 
     }
 
-
     // GET ITEM BY ID
     else if (url.startsWith('/items/') && method === 'GET') {
 
@@ -78,7 +77,6 @@ const server = http.createServer((req, res) => {
         res.end(JSON.stringify(article));
 
     }
-
 
     // UPDATE ITEMS
     else if (url.startsWith('/items/') && method === 'PUT') {
@@ -113,10 +111,6 @@ const server = http.createServer((req, res) => {
             res.end(JSON.stringify(updatedArticle));
         });
 
-
-
-
-
     }
 
     // DELETE ITEM
@@ -140,7 +134,6 @@ const server = http.createServer((req, res) => {
 
 
     }
-
 
 })
 
