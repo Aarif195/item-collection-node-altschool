@@ -4,6 +4,9 @@ const http = require("http");
 
 const PORT = 3000;
 const DATA_FILE = './data.json';
+if (!fs.existsSync(DATA_FILE)) {
+    fs.writeFileSync(DATA_FILE, "[]");
+}
 
 const readData = () => JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
 const writeData = (data) => fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
@@ -11,15 +14,47 @@ const writeData = (data) => fs.writeFileSync(DATA_FILE, JSON.stringify(data, nul
 
 const server = http.createServer((req, res) => {
 
- const url = req.url;
-  const method = req.method;
+    const url = req.url;
+    const method = req.method;
 
     if (url === '/items' && method === 'GET') {
-    // READ all
-    const data = readData();
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(data));
-  } 
+        // READ all
+        const data = readData();
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(data));
+    }
+
+    else if (url === '/items' && method === 'POST') {
+        // CREATE
+        let body = "";
+
+        req.on("data", chunk => {
+            body += chunk.toString();
+        });
+
+        req.on("end", () => {
+            try {
+                const newItem = JSON.parse(body);
+                const data = fs.readFileSync(DATA_FILE, "utf8");
+                const items = JSON.parse(data);
+
+                newItem.id = items.length ? items[items.length - 1].id + 1 : 1;
+               
+
+                items.push(newItem);
+                fs.writeFileSync(DATA_FILE, JSON.stringify(items, null, 2));
+
+                res.writeHead(201, { "Content-Type": "application/json" });
+                res.end(JSON.stringify({ message: "Article created successfully", article: newItem }));
+            } catch (err) {
+                res.writeHead(400, { "Content-Type": "application/json" });
+                res.end(JSON.stringify({ error: "Invalid JSON or request format" }));
+            }
+        });
+
+
+    }
+
 
 })
 

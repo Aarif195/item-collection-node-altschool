@@ -16,5 +16,11 @@
     "name": "Cap",
     "price": 800,
     "size": "small"
+  },
+  {
+    "name": "Jeans",
+    "price": 3000,
+    "size": "large",
+    "id": 4
   }
 ]
