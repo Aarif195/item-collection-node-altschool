@@ -26,7 +26,7 @@ const server = http.createServer((req, res) => {
         res.end(JSON.stringify(data));
     }
 
-        // CREATE ITEM
+    // CREATE ITEM
     else if (url === '/items' && method === 'POST') {
         let body = "";
 
@@ -76,6 +76,46 @@ const server = http.createServer((req, res) => {
 
         res.setHeader("Content-Type", "application/json");
         res.end(JSON.stringify(article));
+
+    }
+
+
+    // UPDATE ITEMS
+    else if (url.startsWith('/items/') && method === 'PUT') {
+
+        const id = parseInt(req.url.split("/")[2]);
+        let body = "";
+
+        req.on("data", (chunk) => {
+            body += chunk;
+        });
+
+        req.on("end", () => {
+            const updatedData = JSON.parse(body);
+
+            const data = fs.readFileSync(DATA_FILE, "utf8");
+            const items = JSON.parse(data);
+
+            const index = items.findIndex((article) => article.id === id);
+
+            if (index === -1) {
+                res.writeHead(404, { "Content-Type": "application/json" });
+                res.end(JSON.stringify({ message: "Article not found" }));
+                return;
+            }
+
+            const updatedArticle = { ...items[index], ...updatedData };
+            items[index] = updatedArticle;
+
+            fs.writeFileSync(DATA_FILE, JSON.stringify(items, null, 2));
+
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(JSON.stringify(updatedArticle));
+        });
+
+
+
+
 
     }
 
