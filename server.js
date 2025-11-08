@@ -119,6 +119,28 @@ const server = http.createServer((req, res) => {
 
     }
 
+    // DELETE ITEM
+    else if (url.startsWith('/items/') && method === 'DELETE') {
+        const id = parseInt(req.url.split("/").pop());
+        const data = fs.readFileSync(DATA_FILE, "utf8");
+        let items = JSON.parse(data);
+
+        const index = items.findIndex((a) => a.id === id);
+        if (index === -1) {
+            res.writeHead(404, { "Content-Type": "application/json" });
+            return res.end(JSON.stringify({ message: "Article not found" }));
+        }
+
+        const deleted = items.splice(index, 1);
+
+        fs.writeFileSync(DATA_FILE, JSON.stringify(items, null, 2));
+
+        res.writeHead(204, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ message: "Article deleted", deleted }));
+
+
+    }
+
 
 })
 
