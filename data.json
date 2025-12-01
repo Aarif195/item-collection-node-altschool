@@ -28,5 +28,11 @@
     "price": 3000,
     "size": "large",
     "id": 6
+  },
+  {
+    "name": "Jeans",
+    "price": 3000,
+    "size": "large",
+    "id": 7
   }
 ]

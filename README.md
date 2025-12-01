@@ -35,8 +35,8 @@ GET http://localhost:3000/items
 
 GET http://localhost:3000/items/ID 
 
-POST http://localhost:3000/items → Body: { "name": "Item1" }
+POST http://localhost:3000/items 
 
-PUT http://localhost:3000/items/ID → Body: { "name": "UpdatedItem" }
+PUT http://localhost:3000/items/ID 
 
 DELETE http://localhost:3000/items/ID
